@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 163music
 
 ## Project setup
@@ -27,3 +28,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+=======
+# 163music
+>>>>>>> 089cfc92f7e6d7573ceba9284344ebdcf8fdbe5e
