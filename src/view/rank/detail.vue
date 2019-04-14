@@ -4,7 +4,108 @@
         <div class="music-box">
             <div class="music-list">
                 <div class="music-header">
-                    播放全部
+                    <img src="@/assets/bofangall.png"/>
+                    <span class="play-all-text">播放全部</span>
+                    <span class="play-all-num">（共20首）</span>
+                </div>
+                <div class="music-content">
+                    <div class="music-num">
+                        1
+                    </div>
+                    <div>
+                        <div>告白气球</div>
+                        <div class="music-singer">周杰伦</div>
+                    </div>
+                </div>
+                <div class="music-content">
+                    <div class="music-num">
+                        1
+                    </div>
+                    <div>
+                        <div>告白气球</div>
+                        <div class="music-singer">周杰伦</div>
+                    </div>
+                </div>
+                <div class="music-content">
+                    <div class="music-num">
+                        1
+                    </div>
+                    <div>
+                        <div>告白气球</div>
+                        <div class="music-singer">周杰伦</div>
+                    </div>
+                </div>
+                <div class="music-content">
+                    <div class="music-num">
+                        1
+                    </div>
+                    <div>
+                        <div>告白气球</div>
+                        <div class="music-singer">周杰伦</div>
+                    </div>
+                </div>
+                <div class="music-content">
+                    <div class="music-num">
+                        1
+                    </div>
+                    <div>
+                        <div>告白气球</div>
+                        <div class="music-singer">周杰伦</div>
+                    </div>
+                </div>
+                <div class="music-content">
+                    <div class="music-num">
+                        1
+                    </div>
+                    <div>
+                        <div>告白气球</div>
+                        <div class="music-singer">周杰伦</div>
+                    </div>
+                </div>
+                <div class="music-content">
+                    <div class="music-num">
+                        1
+                    </div>
+                    <div>
+                        <div>告白气球</div>
+                        <div class="music-singer">周杰伦</div>
+                    </div>
+                </div>
+                <div class="music-content">
+                    <div class="music-num">
+                        1
+                    </div>
+                    <div>
+                        <div>告白气球</div>
+                        <div class="music-singer">周杰伦</div>
+                    </div>
+                </div>
+                <div class="music-content">
+                    <div class="music-num">
+                        1
+                    </div>
+                    <div>
+                        <div>告白气球</div>
+                        <div class="music-singer">周杰伦</div>
+                    </div>
+                </div>
+                <div class="music-content">
+                    <div class="music-num">
+                        1
+                    </div>
+                    <div>
+                        <div>告白气球</div>
+                        <div class="music-singer">周杰伦</div>
+                    </div>
+                </div>
+                <div class="music-content">
+                    <div class="music-num">
+                        1
+                    </div>
+                    <div>
+                        <div>告白气球</div>
+                        <div class="music-singer">周杰伦</div>
+                    </div>
                 </div>
                 <div class="music-content">
                     <div class="music-num">
@@ -27,6 +128,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.music-header{
+    padding: 10px 16px;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid #e4e4e4;
+    img{
+        vertical-align: text-top;
+        width:16px;
+    }
+}
+.play-all-text{
+    font-size: 16px;
+    margin: 0 0 0 14px;
+}
+.play-all-num{
+    font-size: 14px;
+    color: #757575;
+}
 .music-singer{
     color: #757575;
 }
@@ -39,7 +157,10 @@ export default {
 }
 .music-box{
     background-color: #fff;
-    border-radius: 10px 10px 0 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 240px;
 }
 .music-content{
     display: flex;
