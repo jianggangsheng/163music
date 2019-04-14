@@ -1,13 +1,12 @@
 <template>
 <div>
-    <div class="wrapper" ref="wrapper">
-    <ul class="scroll" ref="scroll">
-        <li><img src="http://p1.music.126.net/Eyzoo6msx3D9zXdzsk_2lA==/109951163975688081.jpg"></li>
-        <li><img src="http://p1.music.126.net/fKQEsbBRG4EN8a1y5rtd-A==/109951163975955406.jpg"></li>
-        <li><img src="http://p1.music.126.net/DigdHEs3zEajhmCOdEiSfw==/109951163976012969.jpg"></li>
-    </ul>
-    <!-- 这里可以放一些其它的 DOM，但不会影响滚动 -->
-    </div>
+    <slide ref="slide" :autoPlay="isAutoPlay" :loop="isLoop" :showDot="isShowDot" :interval="interval" :threshold="threshold" :speed="speed">
+        <div v-for="(item,index) in data" :key="index">
+            <a :href="item.linkUrl">
+                <img :src="item.picUrl">
+            </a>
+        </div>
+    </slide>
     <div class="song">
         <div class="song-title">推荐歌单</div>
         <div class="song-box">
@@ -110,39 +109,68 @@
 </template>
 
 <script>
-import BScroll from 'better-scroll'
-
+const items = [
+    [
+      {
+        linkUrl: 'http://y.qq.com/w/album.html?albummid=0044K2vN1sT5mE',
+        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000001YCZlY3aBifi.jpg',
+        id: 11351
+      },
+      {
+        linkUrl: 'https://y.qq.com/m/digitalbum/gold/index.html?_video=true&id=2197820&g_f=shoujijiaodian',
+        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000004ckGfg3zaho0.jpg',
+        id: 11372
+      },
+      {
+        linkUrl: 'http://y.qq.com/w/album.html?albummid=001tftZs2RX1Qz',
+        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M00000236sfA406cmk.jpg',
+        id: 11378
+      },
+      {
+        linkUrl: 'https://y.qq.com/msa/218/0_4085.html',
+        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000001s0BXx3Zxcwb.jpg',
+        id: 11375
+      },
+      {
+        linkUrl: 'https://y.qq.com/m/digitalbum/gold/index.html?_video=true&id=2195876&g_f=shoujijiaodian',
+        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000002cwng4353HKz.jpg',
+        id: 11287
+      }
+    ]
+  ]
+// import BScroll from 'better-scroll'
+import slide from '@/components/Slide.vue'
 export default {
     name:'index',
+    components: {
+      slide
+    },
+     computed: {
+      data() {
+        return items[this.index]
+      }
+    },
+      watch: {
+      index() {
+        this.$refs.slide.update()
+      }
+    },
     data(){
       return{
         scroll:'',
+        index: 0,
+        turnToPrev: false,
+        turnToNext: false,
+        isAutoPlay: true,
+        isLoop: true,
+        isShowDot: true,
+        speed: 400,
+        threshold: 0.3,
+        interval: 4000
       }
     },
     mounted() {
       console.log('123')
-      this.$nextTick(() =>{
-        if (!this.scroll) {
-          this.scroll = new BScroll(this.$refs.wrapper,{
-             click: true,
-             bounce:true,
-             probeType:3,
-        momentumLimitDistance:5,
-            scrollX: true,
-            // scrollY: false,
-            momenum:false,
-            snap: {
-              loop: true, // 开启循环播放
-              threshold: 0.3, // 滚动距离超过宽度/高度的 30% 时切换图片
-              speed: 400 // 切换动画时长 400ms
-            }
-          })
-          console.log(this.scroll)
-
-        }else{
-                    this.scroll.refresh();
-        }
-      })
     }
 }
 </script>
@@ -164,7 +192,7 @@ export default {
     }
 }
 .song{
-    padding: 152px 0 0 ;
+    // padding: 152px 0 0 ;q
 }
 .song-title{
     height: 40px;
@@ -204,6 +232,7 @@ export default {
                 background-size: 11px 10px;
                 text-shadow: 1px 0 0 rgba(0,0,0,.15);
                 padding-left: 13px;
+                background: none;
 
             }
             p{
