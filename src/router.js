@@ -1,28 +1,41 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './view/home/index.vue'
+import Index from './view/Index.vue'
+
+import NavbarHeader from './components/NavbarHeader.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    
     {
       path: '/',
-      name: 'home',
-      component: Home
+      component: Index,
+      children:[
+        {
+            path: "/",
+            name: "Home",
+            component: Home
+        },
+        {
+          path: '/rank',
+          name: 'rank',
+          component: () => import('./view/rank/rank.vue')
+        },
+    ]
     },
-    {
-      path: '/rank',
-      name: 'rank',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './view/rank/rank.vue')
-    },
+   
     {
       path: '/detail',
       name: 'detail',
       component: () => import('./view/rank/detail.vue')
+    },
+    {
+      path: '/player',
+      name: 'player',
+      component: () => import('./view/player/player.vue')
     },
   ]
 })
