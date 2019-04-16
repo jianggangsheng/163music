@@ -10,7 +10,9 @@
             <li>
                 <router-link  to="/rank">排行</router-link>
             </li>
-            <li><a>搜索</a></li>
+            <li>
+                <router-link  to="/singer">歌手</router-link>
+            </li>
         </ul>
         <div class="clearfix"></div>
     </div>

@@ -24,6 +24,11 @@ export default new Router({
           name: 'rank',
           component: () => import('./view/rank/rank.vue')
         },
+        {
+          path: '/singer',
+          name: 'singer',
+          component: () => import('./view/singer/singer.vue')
+        },
     ]
     },
    
