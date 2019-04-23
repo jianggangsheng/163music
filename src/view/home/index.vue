@@ -109,8 +109,7 @@
 </template>
 
 <script>
-const items = [
-    [
+var items = [
       {
         linkUrl: 'http://y.qq.com/w/album.html?albummid=0044K2vN1sT5mE',
         picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000001YCZlY3aBifi.jpg',
@@ -136,21 +135,23 @@ const items = [
         picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000002cwng4353HKz.jpg',
         id: 11287
       }
-    ]
+    
   ]
-// import BScroll from 'better-scroll'
 import slide from '@/components/Slide.vue'
 export default {
     name:'index',
+    created() {
+        this.getBanner()
+    },
     components: {
       slide
     },
-     computed: {
+    computed: {
       data() {
-        return items[this.index]
+        return items
       }
     },
-      watch: {
+    watch: {
       index() {
         this.$refs.slide.update()
       }
@@ -166,12 +167,37 @@ export default {
         isShowDot: true,
         speed: 400,
         threshold: 0.3,
-        interval: 4000
+        interval: 4000,
       }
     },
     mounted() {
       console.log('123')
-    }
+    },
+    methods: {
+        getBanner(){
+            console.log(items)
+            let _this = this
+            let _banner = []
+            _this.$api.post('banner',{},(res)=>{
+                if(res.code == 200){
+                    res.banners.map(function(item,index,input){
+                        _banner.push({
+                            'linkUrl':item.url,
+                            'picUrl':item.imageUrl,
+                            'id':item.encodeId
+                        })
+                    })
+                    items = _banner
+                   
+                    console.log(items)
+                }else{
+                }
+               
+            },()=>{
+
+            })
+        }
+    },
 }
 </script>
 

@@ -12,7 +12,6 @@
 
 <script type="text/ecmascript-6">
   import { addClass } from '@/common/js/dom'
-  // import BScroll from 'scroll/index'
 import BScroll from 'better-scroll'
 
   const COMPONENT_NAME = 'slide'
