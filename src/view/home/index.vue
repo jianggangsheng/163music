@@ -2,7 +2,7 @@
 <div>
     <slide ref="slide" :autoPlay="isAutoPlay" :loop="isLoop" :showDot="isShowDot" :interval="interval" :threshold="threshold" :speed="speed">
         <div v-for="(item,index) in data" :key="index">
-            <a :href="item.linkUrl">
+            <a :href="item.linkUrl" target="_blank">
                 <img :src="item.picUrl">
             </a>
         </div>
@@ -109,48 +109,49 @@
 </template>
 
 <script>
-const items = [
-    [
-      {
-        linkUrl: 'http://y.qq.com/w/album.html?albummid=0044K2vN1sT5mE',
-        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000001YCZlY3aBifi.jpg',
-        id: 11351
-      },
-      {
-        linkUrl: 'https://y.qq.com/m/digitalbum/gold/index.html?_video=true&id=2197820&g_f=shoujijiaodian',
-        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000004ckGfg3zaho0.jpg',
-        id: 11372
-      },
-      {
-        linkUrl: 'http://y.qq.com/w/album.html?albummid=001tftZs2RX1Qz',
-        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M00000236sfA406cmk.jpg',
-        id: 11378
-      },
-      {
-        linkUrl: 'https://y.qq.com/msa/218/0_4085.html',
-        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000001s0BXx3Zxcwb.jpg',
-        id: 11375
-      },
-      {
-        linkUrl: 'https://y.qq.com/m/digitalbum/gold/index.html?_video=true&id=2195876&g_f=shoujijiaodian',
-        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000002cwng4353HKz.jpg',
-        id: 11287
-      }
-    ]
+var items = [
+    //   {
+    //     linkUrl: 'http://y.qq.com/w/album.html?albummid=0044K2vN1sT5mE',
+    //     picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000001YCZlY3aBifi.jpg',
+    //     id: 11351
+    //   },
+    //   {
+    //     linkUrl: 'https://y.qq.com/m/digitalbum/gold/index.html?_video=true&id=2197820&g_f=shoujijiaodian',
+    //     picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000004ckGfg3zaho0.jpg',
+    //     id: 11372
+    //   },
+    //   {
+    //     linkUrl: 'http://y.qq.com/w/album.html?albummid=001tftZs2RX1Qz',
+    //     picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M00000236sfA406cmk.jpg',
+    //     id: 11378
+    //   },
+    //   {
+    //     linkUrl: 'https://y.qq.com/msa/218/0_4085.html',
+    //     picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000001s0BXx3Zxcwb.jpg',
+    //     id: 11375
+    //   },
+    //   {
+    //     linkUrl: 'https://y.qq.com/m/digitalbum/gold/index.html?_video=true&id=2195876&g_f=shoujijiaodian',
+    //     picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000002cwng4353HKz.jpg',
+    //     id: 11287
+    //   }
+    
   ]
-// import BScroll from 'better-scroll'
 import slide from '@/components/Slide.vue'
 export default {
     name:'index',
+    created() {
+        this.getBanner()
+    },
     components: {
       slide
     },
-     computed: {
+    computed: {
       data() {
-        return items[this.index]
+        return items
       }
     },
-      watch: {
+    watch: {
       index() {
         this.$refs.slide.update()
       }
@@ -166,12 +167,39 @@ export default {
         isShowDot: true,
         speed: 400,
         threshold: 0.3,
-        interval: 4000
+        interval: 4000,
       }
     },
     mounted() {
-      console.log('123')
-    }
+    },
+    methods: {
+      //获取banner
+      getBanner(){
+        let _this = this
+        let _banner = []
+        _this.$api.post('banner',{},(res)=>{
+          if(res.code == 200){
+            res.banners.map(function(item,index,input){
+              _banner.push({
+                'linkUrl':item.url,
+                'picUrl':item.imageUrl,
+                'id':item.encodeId
+              })
+            })
+            items=_banner
+            _this.scroll.refresh()
+          }else{
+          }
+          
+        },()=>{
+
+        })
+      },
+      //推荐歌单
+      getPersonalized(){
+        
+      }
+    },
 }
 </script>
 
