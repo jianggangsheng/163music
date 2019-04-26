@@ -7,103 +7,25 @@
             </a>
         </div>
     </slide>
+    <div class="song-title">推荐歌单</div>
     <div class="song">
-        <div class="song-title">推荐歌单</div>
-        <div class="song-box">
-            <div class="music-box">
-                <a href="http://www.baidu.com" target="_blank">
-                    <span class="music-listen">567.3万</span>
-                    <img src="http://p2.music.126.net/5qATW1eZpaMerBgPCbj3Xw==/109951163970536996.webp?imageView&thumbnail=246x0&quality=75&tostatic=0&type=webp"/>
-                    <p>清明｜烟雨十里春深 念念不忘故人</p>
-                </a>
-            </div>
-            <div class="music-box">
-                <a href="http://www.baidu.com" target="_blank">
-                    <span class="music-listen">567.3万</span>
-                    <img src="http://p2.music.126.net/5qATW1eZpaMerBgPCbj3Xw==/109951163970536996.webp?imageView&thumbnail=246x0&quality=75&tostatic=0&type=webp"/>
-                    <p>清明｜烟雨十里春深 念念不忘故人</p>
-                </a>
-            </div>
-            <div class="music-box">
-                <a href="http://www.baidu.com" target="_blank">
-                    <span class="music-listen">567.3万</span>
-                    <img src="http://p2.music.126.net/5qATW1eZpaMerBgPCbj3Xw==/109951163970536996.webp?imageView&thumbnail=246x0&quality=75&tostatic=0&type=webp"/>
-                    <p>清明｜烟雨十里春深 念念不忘故人</p>
-                </a>
-            </div>
-        </div>
-        <div class="song-box">
-            <div class="music-box">
-                <a href="http://www.baidu.com" target="_blank">
-                    <span class="music-listen">567.3万</span>
-                    <img src="http://p2.music.126.net/5qATW1eZpaMerBgPCbj3Xw==/109951163970536996.webp?imageView&thumbnail=246x0&quality=75&tostatic=0&type=webp"/>
-                    <p>清明｜烟雨十里春深 念念不忘故人</p>
-                </a>
-            </div>
-            <div class="music-box">
-                <a href="http://www.baidu.com" target="_blank">
-                    <span class="music-listen">567.3万</span>
-                    <img src="http://p2.music.126.net/5qATW1eZpaMerBgPCbj3Xw==/109951163970536996.webp?imageView&thumbnail=246x0&quality=75&tostatic=0&type=webp"/>
-                    <p>清明｜烟雨十里春深 念念不忘故人</p>
-                </a>
-            </div>
-            <div class="music-box">
-                <a href="http://www.baidu.com" target="_blank">
-                    <span class="music-listen">567.3万</span>
-                    <img src="http://p2.music.126.net/5qATW1eZpaMerBgPCbj3Xw==/109951163970536996.webp?imageView&thumbnail=246x0&quality=75&tostatic=0&type=webp"/>
-                    <p>清明｜烟雨十里春深 念念不忘故人</p>
-                </a>
-            </div>
-        </div>
+      <div class="music-box" v-for="(items,index) in personalized" :key="index"> 
+          <a href="http://www.baidu.com" class="music-href" target="_blank">
+              <span class="music-listen">{{items.playCount | unit}}</span>
+              <img :src="items.picUrl"/>
+              <p class="music-title">{{items.name}}</p>
+          </a>
+      </div>
     </div>
+    <div class="song-title">最新专辑</div>
     <div class="song">
-        <div class="song-title">推荐歌单</div>
-        <div class="song-box">
-            <div class="music-box">
-                <a href="http://www.baidu.com" target="_blank">
-                    <span class="music-listen">567.3万</span>
-                    <img src="http://p2.music.126.net/5qATW1eZpaMerBgPCbj3Xw==/109951163970536996.webp?imageView&thumbnail=246x0&quality=75&tostatic=0&type=webp"/>
-                    <p>清明｜烟雨十里春深 念念不忘故人</p>
-                </a>
-            </div>
-            <div class="music-box">
-                <a href="http://www.baidu.com" target="_blank">
-                    <span class="music-listen">567.3万</span>
-                    <img src="http://p2.music.126.net/5qATW1eZpaMerBgPCbj3Xw==/109951163970536996.webp?imageView&thumbnail=246x0&quality=75&tostatic=0&type=webp"/>
-                    <p>清明｜烟雨十里春深 念念不忘故人</p>
-                </a>
-            </div>
-            <div class="music-box">
-                <a href="http://www.baidu.com" target="_blank">
-                    <span class="music-listen">567.3万</span>
-                    <img src="http://p2.music.126.net/5qATW1eZpaMerBgPCbj3Xw==/109951163970536996.webp?imageView&thumbnail=246x0&quality=75&tostatic=0&type=webp"/>
-                    <p>清明｜烟雨十里春深 念念不忘故人</p>
-                </a>
-            </div>
-        </div>
-        <div class="song-box">
-            <div class="music-box">
-                <a href="http://www.baidu.com" target="_blank">
-                    <span class="music-listen">567.3万</span>
-                    <img src="http://p2.music.126.net/5qATW1eZpaMerBgPCbj3Xw==/109951163970536996.webp?imageView&thumbnail=246x0&quality=75&tostatic=0&type=webp"/>
-                    <p>清明｜烟雨十里春深 念念不忘故人</p>
-                </a>
-            </div>
-            <div class="music-box">
-                <a href="http://www.baidu.com" target="_blank">
-                    <span class="music-listen">567.3万</span>
-                    <img src="http://p2.music.126.net/5qATW1eZpaMerBgPCbj3Xw==/109951163970536996.webp?imageView&thumbnail=246x0&quality=75&tostatic=0&type=webp"/>
-                    <p>清明｜烟雨十里春深 念念不忘故人</p>
-                </a>
-            </div>
-            <div class="music-box">
-                <a href="http://www.baidu.com" target="_blank">
-                    <span class="music-listen">567.3万</span>
-                    <img src="http://p2.music.126.net/5qATW1eZpaMerBgPCbj3Xw==/109951163970536996.webp?imageView&thumbnail=246x0&quality=75&tostatic=0&type=webp"/>
-                    <p>清明｜烟雨十里春深 念念不忘故人</p>
-                </a>
-            </div>
-        </div>
+      <div class="music-box" v-for="(items,index) in newest" :key="index"> 
+          <a href="http://www.baidu.com" class="music-href" target="_blank">
+              <!-- <span class="music-listen">{{items.playCount | unit}}</span> -->
+              <img :src="items.picUrl"/>
+              <p class="music-title">{{items.name}}</p>
+          </a>
+      </div>
     </div>
     </div>
 </template>
@@ -142,6 +64,8 @@ export default {
     name:'index',
     created() {
         this.getBanner()
+        this.getPersonalized()
+        this.getNewest()
     },
     components: {
       slide
@@ -155,6 +79,11 @@ export default {
       index() {
         this.$refs.slide.update()
       }
+    },
+    filters:{
+        unit:function(val){
+            return Math.round((val /10000) * 100) / 100+'万';
+        }
     },
     data(){
       return{
@@ -196,6 +125,8 @@ export default {
         speed: 400,
         threshold: 0.3,
         interval: 4000,
+        personalized:[],//推荐歌单
+        newest:[],//推荐专辑
       }
     },
     mounted() {
@@ -214,20 +145,34 @@ export default {
                     'id':item.encodeId,
                 })
             })
-            console.log(_banner)
-            console.log(_this.items)
-            console.log('1')
-            // _this.items=res.banners.splice(4)
           }else{
           }
           
-        },()=>{
+        },(res)=>{
 
         })
       },
       //推荐歌单
       getPersonalized(){
-        
+        let _this = this
+        _this.$api.post('personalized',{},(res)=>{
+          if(res.code == 200){
+            _this.personalized = res.result
+          }else{
+            
+          }
+        },(res)=>{
+
+        })
+      },
+      //最新专辑
+      getNewest(){
+        let _this = this
+        _this.$api.post('album/newest',{},(res)=>{
+            _this.newest= res.albums
+        },(res)=>{
+
+        })
       }
     },
 }
@@ -240,7 +185,12 @@ export default {
   height: 150px;
   position: absolute;
   top: 105px;
-
+}
+.music-href{
+  position: relative;
+  img{
+    width: 100%;
+  }
 }
 .scroll{
     li{
@@ -249,8 +199,19 @@ export default {
         }
     }
 }
+.music-title{
+  float: left;
+  text-align: left;
+  height: 40px;
+  line-height: 20px;
+  overflow: hidden;
+  margin-bottom: 10px !important;
+  font-size: 11px;
+}
 .song{
-    // padding: 152px 0 0 ;q
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: space-between;
 }
 .song-title{
     height: 40px;
@@ -270,13 +231,17 @@ export default {
         background-color: #d33a31;
     }
 }
-.song-box{
-    margin: 0 0 24px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+// .song-box{
+//     margin: 0 0 24px;
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: space-between;
     .music-box{
-        width: 33%;
+      display: inline-block;
+      position: relative;
+      box-sizing: border-box;
+      width: 33%;
+      padding: 0 1%;
         a{
             text-decoration: none;
             position: relative;
@@ -291,7 +256,7 @@ export default {
                 text-shadow: 1px 0 0 rgba(0,0,0,.15);
                 padding-left: 13px;
                 background: none;
-
+                text-shadow: 0px 0px 3px #333;
             }
             p{
                 margin: 0;
@@ -301,5 +266,5 @@ export default {
             }
         }
     }
-}
+// }
 </style>

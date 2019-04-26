@@ -1,21 +1,41 @@
 <template>
     <div class="rank">
-        <div class="rank-box">
-            <div class="rank-img">
-                <img src="http://p2.music.126.net/8-GBrukQ3BHhs4CmK6qE4w==/109951163424197392.jpg"/>
+        <span v-for="(items, index) in topListDetail"
+            :key="index">
+            <div class="rank-box" v-if="items.tracks != ''">
+                <div class="rank-img">
+                    <img :src="items.coverImgUrl"/>
+                </div>
+                <div class="rank-text">
+                    <p v-for="(tracks,i) in items.tracks" :key="i">{{tracks.first}}</p>
+                </div>
             </div>
-            <div class="rank-text">
-                <p>1.告白气球</p>
-                <p>2.告白气球</p>
-                <p>3.告白气球</p>
-            </div>
-        </div>
+        </span>
+
     </div>
 </template>
 
 <script>
 export default {
+    name:'rank',
+    data(){
+        return {
+            topListDetail:[]
+        }
+    },
+    created(){
+        this.getTopListDetail()
+    },
+    methods:{
+        getTopListDetail(){
+            let _this = this
+            _this.$api.post('toplist/detail',{},(res)=>{
+                _this.topListDetail = res.list
+            },(res)=>{
 
+            })
+        }
+    }
 }
 </script>
 
@@ -24,7 +44,7 @@ export default {
 .rank-box{
     padding: 10px 0;
     display: flex;
-    margin: 10px;
+    margin: 6px 10px;
     border-bottom: 1px solid #e4e4e4;
 
 }
