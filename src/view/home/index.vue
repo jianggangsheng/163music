@@ -10,11 +10,11 @@
     <div class="song-title">推荐歌单</div>
     <div class="song">
       <div class="music-box" v-for="(items,index) in personalized" :key="index"> 
-          <a href="http://www.baidu.com" class="music-href" target="_blank">
-              <span class="music-listen">{{items.playCount | unit}}</span>
-              <img :src="items.picUrl"/>
-              <p class="music-title">{{items.name}}</p>
-          </a>
+          <router-link :to="{ name: 'detail', params: { id: items.id }}" class="music-href">
+            <span class="music-listen">{{items.playCount | unit}}</span>
+            <img :src="items.picUrl"/>
+            <p class="music-title">{{items.name}}</p>
+          </router-link>
       </div>
     </div>
     <div class="song-title">最新专辑</div>
@@ -159,7 +159,7 @@ export default {
           if(res.code == 200){
             _this.personalized = res.result
           }else{
-            
+
           }
         },(res)=>{
 
@@ -179,6 +179,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .wrapper{
   // width: 100%;
   overflow: hidden;

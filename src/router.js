@@ -33,12 +33,12 @@ export default new Router({
     },
    
     {
-      path: '/detail',
+      path: '/detail/:id',
       name: 'detail',
       component: () => import('./view/rank/detail.vue')
     },
     {
-      path: '/player',
+      path: '/player/:id',
       name: 'player',
       component: () => import('./view/player/player.vue')
     },

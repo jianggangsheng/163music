@@ -1,15 +1,15 @@
 <template>
     <div class="detail">
-        <div class="bg-img">
+        <div class="bg-img" :style="{'background-image':'url('+playlist.coverImgUrl+')'}">
             <div class="filter"></div>
         </div>
         <div class="music-return">
-            <img src="@/assets/fanhui.png"/>
+            <img src="@/assets/fanhui.png" @click="returnPage"/>
         </div>
         <div class="music-box">
             <div class="music-des">
                 <div class="music-title">
-                    云音乐国电榜
+                    {{playlist.name}}
                 </div>
                 <div class="music-time">
                     最近更新时间：4月12日
@@ -21,113 +21,16 @@
                 <span class="play-all-num">（共20首）</span>
             </div>
             <div class="music-list">
-                <div class="music-content">
+                <div class="music-content" v-for="(tracks,i) in playlist.tracks" :key="i">
+                  <router-link :to="{ name: 'player', params: { id: tracks.id }}">
                     <div class="music-num">
-                        1
+                        {{i+1}}
                     </div>
                     <div>
-                        <div>告白气球</div>
-                        <div class="music-singer">周杰伦</div>
+                        <div>{{tracks.name}}</div>
+                        <div class="music-singer">{{tracks.ar[0].name}}</div>
                     </div>
-                </div>
-                <div class="music-content">
-                    <div class="music-num">
-                        1
-                    </div>
-                    <div>
-                        <div>告白气球</div>
-                        <div class="music-singer">周杰伦</div>
-                    </div>
-                </div>
-                <div class="music-content">
-                    <div class="music-num">
-                        1
-                    </div>
-                    <div>
-                        <div>告白气球</div>
-                        <div class="music-singer">周杰伦</div>
-                    </div>
-                </div>
-                <div class="music-content">
-                    <div class="music-num">
-                        1
-                    </div>
-                    <div>
-                        <div>告白气球</div>
-                        <div class="music-singer">周杰伦</div>
-                    </div>
-                </div>
-                <div class="music-content">
-                    <div class="music-num">
-                        1
-                    </div>
-                    <div>
-                        <div>告白气球</div>
-                        <div class="music-singer">周杰伦</div>
-                    </div>
-                </div>
-                <div class="music-content">
-                    <div class="music-num">
-                        1
-                    </div>
-                    <div>
-                        <div>告白气球</div>
-                        <div class="music-singer">周杰伦</div>
-                    </div>
-                </div>
-                <div class="music-content">
-                    <div class="music-num">
-                        1
-                    </div>
-                    <div>
-                        <div>告白气球</div>
-                        <div class="music-singer">周杰伦</div>
-                    </div>
-                </div>
-                <div class="music-content">
-                    <div class="music-num">
-                        1
-                    </div>
-                    <div>
-                        <div>告白气球</div>
-                        <div class="music-singer">周杰伦</div>
-                    </div>
-                </div>
-                <div class="music-content">
-                    <div class="music-num">
-                        1
-                    </div>
-                    <div>
-                        <div>告白气球</div>
-                        <div class="music-singer">周杰伦</div>
-                    </div>
-                </div>
-                <div class="music-content">
-                    <div class="music-num">
-                        1
-                    </div>
-                    <div>
-                        <div>告白气球</div>
-                        <div class="music-singer">周杰伦</div>
-                    </div>
-                </div>
-                <div class="music-content">
-                    <div class="music-num">
-                        1
-                    </div>
-                    <div>
-                        <div>告白气球</div>
-                        <div class="music-singer">周杰伦</div>
-                    </div>
-                </div>
-                <div class="music-content">
-                    <div class="music-num">
-                        1
-                    </div>
-                    <div>
-                        <div>告白气球</div>
-                        <div class="music-singer">周杰伦</div>
-                    </div>
+                  </router-link>
                 </div>
             </div>
         </div>
@@ -136,12 +39,46 @@
 
 <script>
 export default {
+    name:'detail',
+    data(){
+        return{
+          playlist:[]
+        }
+    },
+    created(){
+        this.getDetail()
+    },
+    methods:{
+      // 返回上一页
+      returnPage(){
+        this.$router.push({path:'/'})
+      },
+      //获取详情
+        getDetail(){
+          let _this = this
+          let _id = this.$route.params.id
+          _this.$api.get('playlist/detail',{
+            id:_id
+          },(res)=>{
+            if(res.code == 200){
+              _this.playlist = res.playlist
+              console.log(res)
+            }else{
 
+            }
+          },(res)=>{
+
+          })
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-
+a{
+    display: inherit;
+    text-decoration: none;
+}
 .filter{
     position: absolute;
     top: 0;
@@ -155,12 +92,12 @@ export default {
     color: #fff;
     background: none;
     position: absolute;
-    top: -50px;
+    top: -78px;
     left: 20px;
     right: 0;
     .music-title{
         background: none;
-        font-style: italic;
+        // font-style: italic;
         font-size: 18px;
     }
     .music-time{
@@ -227,9 +164,8 @@ export default {
     background: #f2f3f4;
 }
 .bg-img{
-    background-image: url(http://p2.music.126.net/8-GBrukQ3BHhs4CmK6qE4w==/109951163424197392.jpg);
     width: 100%;
-    height: 267px;
+    height: 316px;
     background-repeat: round;
 }
 </style>
