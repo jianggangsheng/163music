@@ -11,7 +11,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { addClass } from '@/common/js/dom'
+import { addClass } from '@/common/js/dom'
 import BScroll from 'better-scroll'
 
   const COMPONENT_NAME = 'slide'
@@ -127,13 +127,11 @@ import BScroll from 'better-scroll'
       },
       _setSlideWidth(isResize) {
         this.children = this.$refs.slideGroup.children
-
         let width = 0
         let slideWidth = this.$refs.slide.clientWidth
         for (let i = 0; i < this.children.length; i++) {
           let child = this.children[i]
           addClass(child, 'slide-item')
-
           child.style.width = slideWidth + 'px'
           width += slideWidth
         }
@@ -143,7 +141,6 @@ import BScroll from 'better-scroll'
         this.$refs.slideGroup.style.width = width + 'px'
       },
       _initSlide() {
-        // console.log(this.threshold)
         this.slide = new BScroll(this.$refs.slide, {
           scrollX: true,
           scrollY: false,

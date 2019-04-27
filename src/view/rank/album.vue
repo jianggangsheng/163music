@@ -1,6 +1,6 @@
 <template>
-    <div class="detail">
-        <div class="bg-img" :style="{'background-image':'url('+playlist.coverImgUrl+')'}">
+    <div class="album">
+        <div class="bg-img" :style="{'background-image':'url('+album.blurPicUrl+')'}">
             <!-- <div class="filter"></div> -->
         </div>
         <div class="music-return">
@@ -8,21 +8,21 @@
         </div>
         <div class="music-top">
           <div class="music-cover">
-            <img class="music-cover-img" :src="playlist.coverImgUrl">
-            <div class="music-icon">
-              <img src="@/assets/music.png"/>
-              <span>{{playlist.playCount | unit}}</span>
-            </div>
+            <img class="music-cover-img" :src="album.blurPicUrl">
+            <!-- <div class="music-icon"> -->
+              <!-- <img src="@/assets/music.png"/> -->
+              <!-- <span></span> -->
+            <!-- </div> -->
           </div>
           <div class="music-des">
               <div class="music-title">
-                  {{playlist.name}}
+                  {{album.name}}
               </div>
               <div class="music-author">
-                  <img class="music-author-img" :src="playlist['creator'].avatarUrl"/>{{playlist.creator.nickname}}
+                发行公司：{{album.company}}
               </div>
               <div class="music-time">
-                  最近更新时间：{{playlist.updateTime | getDate}}
+                  发行时间：{{album.publishTime | getDate}}
               </div>
           </div>
         </div>
@@ -33,14 +33,14 @@
                 <span class="play-all-num">（共20首）</span>
             </div>
             <div class="music-list">
-                <div class="music-content" v-for="(tracks,i) in playlist.tracks" :key="i">
-                  <router-link :to="{ name: 'player', params: { id: tracks.id }}">
+                <div class="music-content" v-for="(songs,i) in songs" :key="i">
+                  <router-link :to="{ name: 'player', params: { id: songs.id }}">
                     <div class="music-num">
                         {{i+1}}
                     </div>
                     <div>
-                        <div>{{tracks.name}}</div>
-                        <div class="music-singer">{{tracks.ar[0].name}}</div>
+                        <div>{{songs.name}}</div>
+                        <div class="music-singer">{{songs.ar[0].name}}</div>
                     </div>
                   </router-link>
                 </div>
@@ -53,16 +53,18 @@
 import { getDate } from '@/common/js/tool'
 
 export default {
-    name:'detail',
+    name:'album',
     data(){
         return{
           playlist:{
             'creator':[]//用到里面的数据，不定义报错
-          }
+          },
+          album:{},
+          songs:{}
         }
     },
     created(){
-        this.getDetail()
+        this.getAlbum()
     },
     filters:{
       getDate(val){
@@ -78,14 +80,15 @@ export default {
         this.$router.push({path:'/'})
       },
       //获取详情
-        getDetail(){
+        getAlbum(){
           let _this = this
           let _id = this.$route.params.id
-          _this.$api.get('playlist/detail',{
+          _this.$api.get('album',{
             id:_id
           },(res)=>{
             if(res.code == 200){
-              _this.playlist = res.playlist
+              _this.album = res.album
+              _this.songs = res.songs
               console.log(_this.playlist)
             }else{
 
@@ -126,6 +129,7 @@ export default {
 }
 .music-author{
   margin: 10px 0;
+  font-size: 11px;
 }
 .music-author-img{
  display: inline-block;
@@ -152,13 +156,8 @@ a{
     color: #fff;
     background: none;
     width: 190px;
-    // position: absolute;
-    // top: -78px;
-    // left: 20px;
-    // right: 0;
     .music-title{
         background: none;
-        // font-style: italic;
         font-size: 16px;
     }
     .music-time{

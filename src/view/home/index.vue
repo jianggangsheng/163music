@@ -12,7 +12,7 @@
       <div class="music-box" v-for="(items,index) in personalized" :key="index"> 
           <router-link :to="{ name: 'detail', params: { id: items.id }}" class="music-href">
             <span class="music-listen">{{items.playCount | unit}}</span>
-            <img :src="items.picUrl"/>
+            <img class="album" :src="items.picUrl"/>
             <p class="music-title">{{items.name}}</p>
           </router-link>
       </div>
@@ -20,45 +20,17 @@
     <div class="song-title">最新专辑</div>
     <div class="song">
       <div class="music-box" v-for="(items,index) in newest" :key="index"> 
-          <a href="http://www.baidu.com" class="music-href" target="_blank">
+          <router-link :to="{ name: 'album', params: { id: items.id }}" class="music-href">
               <!-- <span class="music-listen">{{items.playCount | unit}}</span> -->
-              <img :src="items.picUrl"/>
+              <img class="album" :src="items.picUrl"/>
               <p class="music-title">{{items.name}}</p>
-          </a>
+          </router-link>
       </div>
     </div>
     </div>
 </template>
 
 <script>
-// var items = [
-    //   {
-    //     linkUrl: 'http://y.qq.com/w/album.html?albummid=0044K2vN1sT5mE',
-    //     picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000001YCZlY3aBifi.jpg',
-    //     id: 11351
-    //   },
-    //   {
-    //     linkUrl: 'https://y.qq.com/m/digitalbum/gold/index.html?_video=true&id=2197820&g_f=shoujijiaodian',
-    //     picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000004ckGfg3zaho0.jpg',
-    //     id: 11372
-    //   },
-    //   {
-    //     linkUrl: 'http://y.qq.com/w/album.html?albummid=001tftZs2RX1Qz',
-    //     picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M00000236sfA406cmk.jpg',
-    //     id: 11378
-    //   },
-    //   {
-    //     linkUrl: 'https://y.qq.com/msa/218/0_4085.html',
-    //     picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000001s0BXx3Zxcwb.jpg',
-    //     id: 11375
-    //   },
-    //   {
-    //     linkUrl: 'https://y.qq.com/m/digitalbum/gold/index.html?_video=true&id=2195876&g_f=shoujijiaodian',
-    //     picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000002cwng4353HKz.jpg',
-    //     id: 11287
-    //   }
-    
-//   ]
 import slide from '@/components/Slide.vue'
 export default {
     name:'index',
@@ -87,34 +59,7 @@ export default {
     },
     data(){
       return{
-          items:[
-      {
-        linkUrl: 'http://y.qq.com/w/album.html?albummid=0044K2vN1sT5mE',
-        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000001YCZlY3aBifi.jpg',
-        id: 11351
-      },
-      {
-        linkUrl: 'https://y.qq.com/m/digitalbum/gold/index.html?_video=true&id=2197820&g_f=shoujijiaodian',
-        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000004ckGfg3zaho0.jpg',
-        id: 11372
-      },
-      {
-        linkUrl: 'http://y.qq.com/w/album.html?albummid=001tftZs2RX1Qz',
-        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M00000236sfA406cmk.jpg',
-        id: 11378
-      },
-      {
-        linkUrl: 'https://y.qq.com/msa/218/0_4085.html',
-        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000001s0BXx3Zxcwb.jpg',
-        id: 11375
-      },
-      {
-        linkUrl: 'https://y.qq.com/m/digitalbum/gold/index.html?_video=true&id=2195876&g_f=shoujijiaodian',
-        picUrl: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000002cwng4353HKz.jpg',
-        id: 11287
-      }
-    
-  ],
+        items:[],
         scroll:'',
         index: 0,
         turnToPrev: false,
@@ -145,6 +90,8 @@ export default {
                     'id':item.encodeId,
                 })
             })
+            _this.items = _banner
+            _this.$refs.slide.update()
           }else{
           }
           
@@ -179,9 +126,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .wrapper{
-  // width: 100%;
   overflow: hidden;
   height: 150px;
   position: absolute;
@@ -189,9 +134,6 @@ export default {
 }
 .music-href{
   position: relative;
-  img{
-    width: 100%;
-  }
 }
 .scroll{
     li{
@@ -209,11 +151,7 @@ export default {
   margin-bottom: 10px !important;
   font-size: 11px;
 }
-.song{
-    // display: flex;
-    // flex-direction: row;
-    // justify-content: space-between;
-}
+
 .song-title{
     height: 40px;
     font-weight: 400;
@@ -232,11 +170,6 @@ export default {
         background-color: #d33a31;
     }
 }
-// .song-box{
-//     margin: 0 0 24px;
-//     display: flex;
-//     flex-direction: row;
-//     justify-content: space-between;
     .music-box{
       display: inline-block;
       position: relative;
@@ -262,10 +195,9 @@ export default {
             p{
                 margin: 0;
             }
-            img{
+            .album{
                 width: 100%;
             }
         }
     }
-// }
 </style>
