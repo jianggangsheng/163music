@@ -1,7 +1,6 @@
 <template>
     <div class="album">
         <div class="bg-img" :style="{'background-image':'url('+album.blurPicUrl+')'}">
-            <!-- <div class="filter"></div> -->
         </div>
         <div class="music-return">
             <img src="@/assets/fanhui.png" @click="returnPage"/>
@@ -9,13 +8,9 @@
         <div class="music-top">
           <div class="music-cover">
             <img class="music-cover-img" :src="album.blurPicUrl">
-            <!-- <div class="music-icon"> -->
-              <!-- <img src="@/assets/music.png"/> -->
-              <!-- <span></span> -->
-            <!-- </div> -->
           </div>
           <div class="music-des">
-              <div class="music-title">
+              <div class="music-desc-title">
                   {{album.name}}
               </div>
               <div class="music-author">
@@ -26,12 +21,8 @@
               </div>
           </div>
         </div>
+        <div class="music-title">歌曲列表</div>
         <div class="music-detail">
-            <div class="music-header">
-                <img src="@/assets/bofangall.png"/>
-                <span class="play-all-text">播放全部</span>
-                <span class="play-all-num">（共20首）</span>
-            </div>
             <div class="music-list">
                 <div class="music-content" v-for="(songs,i) in songs" :key="i">
                   <router-link :to="{ name: 'player', params: { id: songs.id }}">
@@ -43,6 +34,23 @@
                         <div class="music-singer">{{songs.ar[0].name}}</div>
                     </div>
                   </router-link>
+                </div>
+            </div>
+        </div>
+        <div class="music-title">精彩评论</div>
+        <div class="music-comment" v-for="(items,index) in hotComments" :key="index">
+            <div class="music-comment-portrait">
+                <img :src="items.user.avatarUrl" alt="">
+            </div>
+            <div class="music-comment-content">
+                <div class="music-comment-name">
+                  {{items.user.nickname}} 
+                </div>
+                <div class="music-comment-time">
+                    {{items.time | getDate}}
+                </div>
+                <div class="music-comment-detail">
+                    {{items.content}}
                 </div>
             </div>
         </div>
@@ -60,7 +68,9 @@ export default {
             'creator':[]//用到里面的数据，不定义报错
           },
           album:{},
-          songs:{}
+          songs:{},//歌单
+          comments:[],//评论
+          hotComments:[]
         }
     },
     created(){
@@ -80,28 +90,77 @@ export default {
         this.$router.push({path:'/'})
       },
       //获取详情
-        getAlbum(){
-          let _this = this
-          let _id = this.$route.params.id
-          _this.$api.get('album',{
-            id:_id
-          },(res)=>{
-            if(res.code == 200){
-              _this.album = res.album
-              _this.songs = res.songs
-              console.log(_this.playlist)
-            }else{
+      getAlbum(){
+        let _this = this
+        let _id = this.$route.params.id
+        _this.$api.get('album',{
+          id:_id
+        },(res)=>{
+          if(res.code == 200){
+            _this.album = res.album
+            _this.songs = res.songs
+            _this.getAlbumComment()
+          }else{
 
-            }
-          },(res)=>{
+          }
+        },(res)=>{
 
-          })
-        }
+        })
+      },
+      // 获取专辑评论
+      getAlbumComment(){
+        let _this = this
+        let _id = this.$route.params.id
+        _this.$api.get('comment/album',{
+          id:_this.album.id
+        },(res)=>{
+          if(res.code == 200){
+            _this.hotComments = res.hotComments
+          }else{
+
+          }
+        },(res)=>{
+
+        })
+      }
     }
 }
 </script>
 
 <style lang="scss" scoped>
+.music-title{
+  position: relative;
+  margin: 0;
+  padding: 4px 10px;
+  color: #666;
+  font-size: 12px;
+  font-weight: 400;
+  background: #eeeff0;
+}
+.music-comment-content{
+  width: 100%;
+  color: #333;
+  border-bottom: 1px solid #ececec;
+  margin: 0 0 0px 10px;
+  padding-bottom: 10px;
+}
+.music-comment-time{
+  font-size: 9px;
+    color: #999;
+}
+.music-comment{
+    display: flex;
+    padding: 10px;
+    position: relative;
+    background: #fff;
+}
+.music-comment-portrait{
+  img{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+  }
+}
 .music-icon{
   background-image: linear-gradient(90deg,transparent,rgba(0,0,0,.2));
   position: absolute;
@@ -133,75 +192,75 @@ export default {
 }
 .music-author-img{
  display: inline-block;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    vertical-align: middle;
-    margin-right: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 5px;
 }
 a{
-    display: inherit;
-    text-decoration: none;
+  display: inherit;
+  text-decoration: none;
 }
 .filter{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    opacity: .3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: .3;
 }
 .music-des{
-    color: #fff;
-    background: none;
-    width: 190px;
-    .music-title{
-        background: none;
-        font-size: 16px;
-    }
-    .music-time{
-        background: none;
-        font-size: 11px;
-    }
+  color: #fff;
+  background: none;
+  width: 190px;
+  .music-des-title{
+      background: none;
+      font-size: 16px;
+  }
+  .music-time{
+      background: none;
+      font-size: 11px;
+  }
 }
 .music-return{
-    img{
-        position: absolute;
-        top: 10px;
-        background: none;
-        width: 20px;
-        left: 10px;
-    }
+  img{
+    position: absolute;
+    top: 10px;
+    background: none;
+    width: 20px;
+    left: 10px;
+  }
 }
 .music-header{
-    padding: 10px 16px;
-    border-radius: 20px 20px 0 0;
-    border-bottom: 1px solid #e4e4e4;
-    background-color: #f2f3f4;
-    img{
-        vertical-align: text-top;
-        width:16px;
-    }
+  padding: 10px 16px;
+  border-radius: 20px 20px 0 0;
+  border-bottom: 1px solid #e4e4e4;
+  background-color: #f2f3f4;
+  img{
+    vertical-align: text-top;
+    width:16px;
+  }
 }
 .play-all-text{
-    font-size: 16px;
-    margin: 0 0 0 14px;
+  font-size: 16px;
+  margin: 0 0 0 14px;
 }
 .play-all-num{
-    font-size: 14px;
-    color: #757575;
+  font-size: 14px;
+  color: #757575;
 }
 .music-singer{
-    color: #757575;
+  color: #757575;
 }
 .music-num{
-    color: #757575;
-    line-height: 40px;
-    margin: 0 20px 0 0;
+  color: #757575;
+  line-height: 40px;
+  margin: 0 20px 0 0;
 }
 .music-list{
-    background-color: #f2f3f4;
+  background-color: #fff;
 }
 .music-top{
     position: absolute;

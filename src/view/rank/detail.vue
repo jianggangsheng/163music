@@ -15,7 +15,7 @@
             </div>
           </div>
           <div class="music-des">
-              <div class="music-title">
+              <div class="music-des-title">
                   {{playlist.name}}
               </div>
               <div class="music-author">
@@ -26,12 +26,8 @@
               </div>
           </div>
         </div>
+        <div class="music-title">歌曲列表</div>
         <div class="music-detail">
-            <div class="music-header">
-                <img src="@/assets/bofangall.png"/>
-                <span class="play-all-text">播放全部</span>
-                <span class="play-all-num">（共20首）</span>
-            </div>
             <div class="music-list">
                 <div class="music-content" v-for="(tracks,i) in playlist.tracks" :key="i">
                   <router-link :to="{ name: 'player', params: { id: tracks.id }}">
@@ -43,6 +39,23 @@
                         <div class="music-singer">{{tracks.ar[0].name}}</div>
                     </div>
                   </router-link>
+                </div>
+            </div>
+        </div>
+        <div class="music-title">精彩评论</div>
+        <div class="music-comment" v-for="(items,index) in hotComments" :key="index">
+            <div class="music-comment-portrait">
+                <img :src="items.user.avatarUrl" alt="">
+            </div>
+            <div class="music-comment-content">
+                <div class="music-comment-name">
+                  {{items.user.nickname}} 
+                </div>
+                <div class="music-comment-time">
+                    {{items.time | getDate}}
+                </div>
+                <div class="music-comment-detail">
+                    {{items.content}}
                 </div>
             </div>
         </div>
@@ -58,7 +71,8 @@ export default {
         return{
           playlist:{
             'creator':[]//用到里面的数据，不定义报错
-          }
+          },
+          hotComments:[]
         }
     },
     created(){
@@ -78,27 +92,76 @@ export default {
         this.$router.push({path:'/'})
       },
       //获取详情
-        getDetail(){
-          let _this = this
-          let _id = this.$route.params.id
-          _this.$api.get('playlist/detail',{
-            id:_id
-          },(res)=>{
-            if(res.code == 200){
-              _this.playlist = res.playlist
-              console.log(_this.playlist)
-            }else{
+      getDetail(){
+        let _this = this
+        let _id = this.$route.params.id
+        _this.$api.get('playlist/detail',{
+          id:_id
+        },(res)=>{
+          if(res.code == 200){
+            _this.playlist = res.playlist
+            _this.getComment()
+          }else{
 
-            }
-          },(res)=>{
+          }
+        },(res)=>{
 
-          })
-        }
+        })
+      },
+      // 获取评论
+      getComment(){
+        let _this = this
+        let _id = this.$route.params.id
+        _this.$api.get('comment/playlist',{
+          id:_this.playlist.id
+        },(res)=>{
+          if(res.code == 200){
+            _this.hotComments = res.hotComments
+          }else{
+
+          }
+        },(res)=>{
+
+        })
+      }
     }
 }
 </script>
 
 <style lang="scss" scoped>
+.music-comment-content{
+  width: 100%;
+  color: #333;
+  border-bottom: 1px solid #ececec;
+  margin: 0 0 0px 10px;
+  padding-bottom: 10px;
+}
+.music-comment-time{
+  font-size: 9px;
+    color: #999;
+}
+.music-comment{
+    display: flex;
+    padding: 10px;
+    position: relative;
+    background: #fff;
+}
+.music-comment-portrait{
+  img{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+  }
+}
+.music-title{
+  position: relative;
+  margin: 0;
+  padding: 4px 10px;
+  color: #666;
+  font-size: 12px;
+  font-weight: 400;
+  background: #eeeff0;
+}
 .music-icon{
   background-image: linear-gradient(90deg,transparent,rgba(0,0,0,.2));
   position: absolute;
@@ -156,7 +219,7 @@ a{
     // top: -78px;
     // left: 20px;
     // right: 0;
-    .music-title{
+    .music-des-title{
         background: none;
         // font-style: italic;
         font-size: 16px;
@@ -202,7 +265,7 @@ a{
     margin: 0 20px 0 0;
 }
 .music-list{
-    background-color: #f2f3f4;
+    background-color: #fff;
 }
 .music-top{
     position: absolute;
