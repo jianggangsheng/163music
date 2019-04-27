@@ -276,7 +276,7 @@ a{
     padding: 10px 20px;
     border-bottom: 1px solid #e4e4e4;
 }
-.detail{
+.album{
     overflow: hidden;
     background: #f2f3f4;
 }
