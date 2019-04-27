@@ -31,7 +31,6 @@ axios.interceptors.request.use(config => {
 
 // http响应拦截器
 axios.interceptors.response.use(data => {
-  // loadinginstace.close()
   if (data.status === 200) {
     return data.data
   } else {

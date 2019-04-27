@@ -25,7 +25,7 @@
         <div class="music-detail">
             <div class="music-list">
                 <div class="music-content" v-for="(songs,i) in songs" :key="i">
-                  <router-link :to="{ name: 'player', params: { id: songs.id }}">
+                  <div class="music-link" @click="checkMusic(songs.id)">
                     <div class="music-num">
                         {{i+1}}
                     </div>
@@ -33,7 +33,10 @@
                         <div>{{songs.name}}</div>
                         <div class="music-singer">{{songs.ar[0].name}}</div>
                     </div>
-                  </router-link>
+                    <div class="music-play">
+                      <img src="@/assets/bofang.png" alt="">
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -122,12 +125,40 @@ export default {
         },(res)=>{
 
         })
+      },
+       // 检测音乐接口
+      checkMusic(id){
+        let _this = this
+        //使用检测音乐的接口遇到问题404，所以使用了获取音乐url的接口
+        _this.$api.get('song/url',{
+          id:id
+        },(res)=>{
+          if(res.code == 200 ){
+            if(res.data[0].url){
+              _this.$router.push({ name: 'player', params: { id: id }})
+            }else{
+              console.log('获取音乐地址失败')
+            }
+          }else{
+            console.log(res)
+          }
+        },(res)=>{
+
+        })
       }
     }
 }
 </script>
 
 <style lang="scss" scoped>
+.music-play{
+  img{
+    width: 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+}
 .music-title{
   position: relative;
   margin: 0;
@@ -162,11 +193,13 @@ export default {
   }
 }
 .music-icon{
-  background-image: linear-gradient(90deg,transparent,rgba(0,0,0,.2));
-  position: absolute;
-  top: 0;
-  right: 8px;
-  text-shadow: 0px 0px 3px #333;
+  // background-image: linear-gradient(90deg,transparent,rgba(0,0,0,.2));
+  // position: absolute;
+  // top: 0;
+  // right: 0;
+  // text-shadow: 0px 0px 3px #333;
+  // left: 0;
+  // text-align: right;
   img{
     width: 16px;
     vertical-align:sub;
@@ -198,7 +231,7 @@ export default {
   vertical-align: middle;
   margin-right: 5px;
 }
-a{
+.music-link{
   display: inherit;
   text-decoration: none;
 }
@@ -275,6 +308,7 @@ a{
     display: flex;
     padding: 10px 20px;
     border-bottom: 1px solid #e4e4e4;
+    position: relative;
 }
 .album{
     overflow: hidden;
