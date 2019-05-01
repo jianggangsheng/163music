@@ -6,7 +6,7 @@
                     热门
                 </div>
                 <ul>
-                    <li class="list-group-item" v-for="(items,index) in singerList" :key="index">
+                    <li class="list-group-item" v-for="(items,index) in singerList" :key="index" @click="pageSkipping(items.id)">
                         <img class="avatar" :src="items.img1v1Url"/>
                         <span class="name">{{items.name}}</span>
                     </li>
@@ -28,10 +28,15 @@ export default {
         this.getSingerList()
     },
     methods:{
+        pageSkipping(val){
+            this.$router.push({ name: 'singerDetail', params: { id: val }})
+        },
+        //获取歌手列表
         getSingerList(){
              let _this = this
             _this.$api.post('toplist/artist',{},(res)=>{
                 _this.singerList = res.list.artists
+                console.log(_this.singerList)
             },(res)=>{
 
             })

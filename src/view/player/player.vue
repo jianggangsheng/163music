@@ -1,7 +1,8 @@
 <template>
   <div>
-    
-    <div class="player" @click="play" :style="{'background-image':'url('+song.picUrl+')'}">
+    <div class="filter"></div>
+    <!-- <div class="player" @click="play" :style="{'background-image':'url('+song.picUrl+')'}"> -->
+    <div class="player" @click="play">
       <div class="player-song-wrap">
         <div class="player-disc">
           <div class="player-turn">
@@ -20,6 +21,7 @@
       </div>
       <div class="player-song-info">
         <h2 class="player-song-h2">{{song.name}}-{{singer.name}}</h2>
+              <p class="m-song-lritem j-lritem" v-if="lyric == ''">无歌词</p>
         <div class="player-song-lrc" ref="lyric">
           <div class="player-song-scroll" style="height:100%">
             <div class="player-song-iner">
@@ -68,7 +70,6 @@ export default {
             _this.activeIndex = _this.lyric.findIndex((item, index) => {
               return item.ms < timeStamp && _this.lyric[index + 1] ? _this.lyric[index + 1].ms > timeStamp : true
             })
-            console.log(_this.activeIndex)
             _this.scroll.scrollTo(0, -37 * _this.activeIndex + 54, 500)
           })
         },
@@ -133,14 +134,16 @@ export default {
           _this.lyric = []
           arr.forEach(item => {
             let time = item.match(timeReg)[0].substr(1, 8)
-            let minute = time.substr(0, 2)
-            let second = time.substr(3, 2)
-            let ms = time.substr(6, 2)
-            _this.lyric.push({
-              time:time,
-              ms: parseInt(minute) * 60 * 1000 + parseInt(second) * 1000 + parseInt(ms) * 10,
-              content: item.substr(11)
-            })
+            if(time.match(/\d+/g)!=null){
+              let minute = time.substr(0, 2)
+              let second = time.substr(3, 2)
+              let ms = time.substr(6, 2)
+              _this.lyric.push({
+                time:time,
+                ms: parseInt(minute) * 60 * 1000 + parseInt(second) * 1000 + parseInt(ms) * 10,
+                content: item.substr(11)
+              })
+            }
           })
         },
         //播放
@@ -168,6 +171,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.filter{
+    //   position: absolute;
+    // width: 100%;
+    // height: 100%;
+    // background: #000;
+    // opacity: .6;
+}
 .lyric-active{
   color: #fff;
 }

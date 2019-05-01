@@ -38,6 +38,11 @@ export default new Router({
       component: () => import('./view/rank/detail.vue')
     },
     {
+      path: '/singerDetail/:id',
+      name: 'singerDetail',
+      component: () => import('./view/singer/detail.vue')
+    },
+    {
       path: '/player/:id',
       name: 'player',
       component: () => import('./view/player/player.vue')
