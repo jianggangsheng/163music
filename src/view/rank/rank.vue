@@ -3,12 +3,14 @@
         <span v-for="(items, index) in topListDetail"
             :key="index">
             <div class="rank-box" v-if="items.tracks != ''">
+            <router-link :to="{ name: 'detail', params: { id: items.id }}" class="music-href">
                 <div class="rank-img">
                     <img :src="items.coverImgUrl"/>
                 </div>
                 <div class="rank-text">
                     <p v-for="(tracks,i) in items.tracks" :key="i">{{tracks.first}}</p>
                 </div>
+            </router-link>
             </div>
         </span>
 
@@ -40,13 +42,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.music-href{
+  display: flex;
+  text-decoration: none;
+}
 .rank-box{
     padding: 10px 0;
     display: flex;
     margin: 6px 10px;
     border-bottom: 1px solid #e4e4e4;
-
 }
 .rank-text {
     margin: 0 20px;

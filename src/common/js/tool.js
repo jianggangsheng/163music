@@ -12,3 +12,22 @@ export function getDate(timestamp,flag=true){
         return Y+M+D+h+m+s
     }
 }
+
+export function lrc2Json(lrc){
+  let arr = lrc.split('\n')
+  let timeReg = /^\[.*\]/
+  let json = []
+  arr.forEach(item => {
+    let time = item.match(timeReg)[0].substr(1, 8)
+    let minute = time.substr(0, 2)
+    let second = time.substr(3, 2)
+    let ms = time.substr(6, 2)
+    json.push({
+      time,
+      ms: parseInt(minute) * 60 * 1000 + parseInt(second) * 1000 + parseInt(ms) * 10,
+      content: item.substr(10)
+    })
+  })
+  // console.log(json)
+  return json
+}
