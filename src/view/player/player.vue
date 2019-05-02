@@ -2,9 +2,9 @@
   <div>
     <div class="filter"></div>
     <!-- <div class="player" @click="play" :style="{'background-image':'url('+song.picUrl+')'}"> -->
-    <div class="player" @click="play">
+    <div class="player">
       <div class="player-song-wrap">
-        <div class="player-disc">
+        <div class="player-disc" v-show="!isLyric" @click="changingOver">
           <div class="player-turn">
             <div class="player-rollwrap ">
               <div class="player-img player-circling" :class="{'player-circling-running':isPlaying}">
@@ -15,13 +15,14 @@
               <div class="player-song-light player-circling" :class="{'player-circling-running':isPlaying}"></div>
             </div>
           </div>
-          <span class="player-song-plybtn" v-show="isPlaying==false">
-          </span>
+          <!-- <span class="player-song-plybtn" v-show="isPlaying==false"> -->
+          <!-- </span> -->
         </div>
       </div>
-      <div class="player-song-info">
+      <!--歌词-->
+      <div class="player-song-info" v-show="isLyric" @click="changingOver">
         <h2 class="player-song-h2">{{song.name}}-{{singer.name}}</h2>
-              <p class="m-song-lritem j-lritem" v-if="lyric == ''">无歌词</p>
+        <p class="m-song-lritem j-lritem" v-if="lyric == ''">无歌词</p>
         <div class="player-song-lrc" ref="lyric">
           <div class="player-song-scroll" style="height:100%">
             <div class="player-song-iner">
@@ -29,6 +30,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="" @click="play">
+        
       </div>
       <audio id="audio" :src="url" ref="audio"></audio>
     </div>
@@ -47,6 +51,7 @@ export default {
           scroll:null,
           url:'',
           isPlaying:false,
+          isLyric:false,
           song:{},
           singer:{},
           lyric:[],//歌词
@@ -63,6 +68,9 @@ export default {
       this.lyricScrollInit()
     },
     methods:{
+      changingOver(){
+        this.isLyric = !this.isLyric
+      },
         init () {
           let _this = this
           this.$refs.audio.addEventListener('timeupdate', e => {
@@ -70,7 +78,7 @@ export default {
             _this.activeIndex = _this.lyric.findIndex((item, index) => {
               return item.ms < timeStamp && _this.lyric[index + 1] ? _this.lyric[index + 1].ms > timeStamp : true
             })
-            _this.scroll.scrollTo(0, -37 * _this.activeIndex + 54, 500)
+            _this.scroll.scrollTo(0, -30 * _this.activeIndex + 54, 500)
           })
         },
         lyricScrollInit () {

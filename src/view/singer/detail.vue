@@ -1,8 +1,5 @@
 <template>
     <div class="detail">
-        <div class="bg-img" :style="{'background-image':'url('+artist.picUrl+')'}">
-            <!-- <div class="filter"></div> -->
-        </div>
         <div class="music-return">
             <img src="@/assets/fanhui.png" @click="returnPage"/>
         </div>
@@ -15,12 +12,11 @@
           </div>
           
         </div>
-        <div class="music-des">
-              
-              <div class="music-author">
-                  {{artist.briefDesc}}
-              </div>
+        <!-- <div class="music-des">
+          <div class="music-author">
+            {{artist.briefDesc}}
           </div>
+        </div> -->
         <div class="music-title">歌曲列表</div>
         <div class="music-detail">
           <div class="music-list">
@@ -230,10 +226,11 @@ export default {
  .music-des-title{
   background: none;
   font-size: 16px;
-  position: relative;
-  top: -34px;
+  position: absolute;
+  top: 86%;
   left: 10px;
   color: #fff;
+  text-shadow: 0px 0px 3px #333;
   }
 .music-des{
     color: #fff;
@@ -284,11 +281,10 @@ export default {
     background-color: #fff;
 }
 .music-top{
-    position: absolute;
+    position: relative;
     left: 0;
     right: 0;
     top: 0;
-    display:flex;
     justify-content:space-between;
 }
 .music-content{
@@ -301,14 +297,6 @@ export default {
     overflow: hidden;
     background: #f2f3f4;
 }
-.bg-img{
-    // width: 100%;
-    height: 234px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50%;
-    filter: blur(20px);
-    transform: scale(10);
-}
+
 </style>
 
