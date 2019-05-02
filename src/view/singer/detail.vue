@@ -65,7 +65,7 @@ export default {
     methods:{
       // 返回上一页
       returnPage(){
-        this.$router.push({path:'/singer'})
+        this.$router.go(-1)
       },
       //获取详情
       getDetail(){
@@ -114,7 +114,6 @@ export default {
               console.log('获取音乐地址失败')
             }
           }else{
-            console.log(res)
           }
         },(res)=>{
 

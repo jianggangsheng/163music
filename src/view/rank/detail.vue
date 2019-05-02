@@ -92,7 +92,7 @@ export default {
     methods:{
       // 返回上一页
       returnPage(){
-        this.$router.push({path:'/'})
+        this.$router.go(-1)
       },
       //获取详情
       getDetail(){

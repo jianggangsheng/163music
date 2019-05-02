@@ -8,7 +8,7 @@
                     <img :src="items.coverImgUrl"/>
                 </div>
                 <div class="rank-text">
-                    <p v-for="(tracks,i) in items.tracks" :key="i">{{tracks.first}}</p>
+                    <p v-for="(tracks,i) in items.tracks" :key="i">{{i+1}}：{{tracks.first}}</p>
                 </div>
             </router-link>
             </div>

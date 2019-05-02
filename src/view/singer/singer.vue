@@ -36,7 +36,6 @@ export default {
              let _this = this
             _this.$api.post('toplist/artist',{},(res)=>{
                 _this.singerList = res.list.artists
-                console.log(_this.singerList)
             },(res)=>{
 
             })
