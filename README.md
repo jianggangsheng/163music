@@ -1,8 +1,7 @@
 # 163music
-git clone https://github.com/jianggangsheng/163music-vue.git
 
-# install dependencies
-npm install
+1:git clone https://github.com/jianggangsheng/163music-vue.git
 
-# serve with hot reload at localhost:8080
-npm run serve
+2:npm install
+
+3:npm run serve
