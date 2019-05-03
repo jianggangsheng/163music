@@ -1,2 +1,6 @@
 # 163music
-更新中
+git clone https://github.com/jianggangsheng/163music-vue.git
+
+npm install 
+
+npm run serve

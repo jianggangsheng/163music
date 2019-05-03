@@ -26,7 +26,7 @@
                     {{index+1}}
                 </div>
                 <div>
-                    <div class="music-name">{{item.al.name}}</div>
+                    <div class="music-name">{{item.name}}</div>
                     <div class="music-singer">{{item.ar[0].name}}</div>
                 </div>
                 <div class="music-play">
