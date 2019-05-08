@@ -31,10 +31,10 @@
           </div>
         </div>
       </div>
-      <div class="" @click="play">
-        
+          <ProgressBar class="progress-bar" :percent="percent" @percentChange="setProgress"></ProgressBar>
+      <div class="play" @click="play">
       </div>
-      <audio id="audio" :src="url" ref="audio"></audio>
+      <audio id="audio" :src="url" autoplay loop ref="audio"></audio>
     </div>
     </div>
 </template>
@@ -43,9 +43,13 @@
 import BScroll from 'better-scroll'
 import { timingSafeEqual } from 'crypto';
 import { lrc2Json } from '@/common/js/tool'
+import ProgressBar from '@/components/ProgressBar'
 
 export default {
     name:"player",
+    components:{
+      ProgressBar
+    },
     data(){
         return{
           scroll:null,
@@ -56,129 +60,157 @@ export default {
           singer:{},
           lyric:[],//歌词
           activeIndex: 0,
+          currentTime:0,
+          currentSong:{
+            duration:0
+          }
         }
     },
     created(){
       this.getSongUrl()
       this.getDetail()
       this.getLyric()
+      this.play()
     },
     mounted(){
       this.init()
       this.lyricScrollInit()
     },
     methods:{
+      percent(){
+        return Math.min(1, this.currentTime / this.currentSong.duration)
+      },
       changingOver(){
         this.isLyric = !this.isLyric
       },
-        init () {
-          let _this = this
-          this.$refs.audio.addEventListener('timeupdate', e => {
-            let timeStamp = e.target.currentTime * 1000
-            _this.activeIndex = _this.lyric.findIndex((item, index) => {
-              return item.ms < timeStamp && _this.lyric[index + 1] ? _this.lyric[index + 1].ms > timeStamp : true
-            })
-            _this.scroll.scrollTo(0, -30 * _this.activeIndex + 54, 500)
-          })
-        },
-        lyricScrollInit () {
-          this.scroll = new BScroll(this.$refs.lyric)
-          this.scroll.scrollTo(0, 54)
-        },
-        //获取音乐
-        getSongUrl(){
-          let _this = this
-          let _id = this.$route.params.id
-          _this.$api.get('song/url',{
-            id:_id
-          },(res)=>{
-            if(res.code == 200){
-              _this.url = res.data[0].url
-            }else{
-
-            }
-          },(res)=>{
-
-          })
-        },
-        //获取歌曲详情
-        getDetail(){
-          let _this = this
-          let _id = this.$route.params.id
-          _this.$api.get('song/detail',{
-            ids:_id
-          },(res)=>{
-            if(res.code == 200){
-              _this.song = res.songs[0].al
-              _this.singer = res.songs[0].ar[0]
-            }else{
-
-            }
-          },(res)=>{
-
-          })
-        },
-        // 获取歌词
-        getLyric(){
-           let _this = this
-          let _id = this.$route.params.id
-          _this.$api.get('lyric',{
-            id:_id
-          },(res)=>{
-            if(res.code == 200){
-              _this.lrc2Json(res.lrc.lyric)
-            }else{
-
-            }
-          },(res)=>{
-
-          })
-        },
-        //歌词转换
-        lrc2Json(lrc){
-          let _this = this
-          let arr = lrc.split('\n')
-          let timeReg = /^\[.*\]/
-          _this.lyric = []
-          arr.forEach(item => {
-            let time = item.match(timeReg)[0].substr(1, 8)
-            if(time.match(/\d+/g)!=null){
-              let minute = time.substr(0, 2)
-              let second = time.substr(3, 2)
-              let ms = time.substr(6, 2)
-              _this.lyric.push({
-                time:time,
-                ms: parseInt(minute) * 60 * 1000 + parseInt(second) * 1000 + parseInt(ms) * 10,
-                content: item.substr(11)
-              })
-            }
-          })
-        },
-        //播放
-        play(){
-          let _this = this
-          let _audio =document.querySelector('#audio')
-          if(!_this.isPlaying){
-            _audio.play()
-            _this.isPlaying =true
-          }else{
-            _this.stop()
-          }
-        },
-        //暂停
-        stop(){
-          let _this = this
-          let _audio =document.querySelector('#audio');
-          if(_this.isPlaying){
-            _audio.pause()
-            _this.isPlaying =false
-          }
+      setProgress(percent) {
+        // 根据子组件传过来的百分比设置播放进度
+        // this.$refs.audio.currentTime = this.currentSong.duration * percent
+        // 拖动后设置歌曲播放
+        if (!this.isPlaying) {
+          this.play()
         }
+      },
+      init () {
+        let _this = this
+        this.$refs.audio.addEventListener('timeupdate', e => {
+          let timeStamp = e.target.currentTime * 1000
+          _this.activeIndex = _this.lyric.findIndex((item, index) => {
+            return item.ms < timeStamp && _this.lyric[index + 1] ? _this.lyric[index + 1].ms > timeStamp : true
+          })
+          _this.scroll.scrollTo(0, -30 * _this.activeIndex + 54, 500)
+        })
+      },
+      lyricScrollInit () {
+        this.scroll = new BScroll(this.$refs.lyric)
+        this.scroll.scrollTo(0, 54)
+      },
+      //获取音乐
+      getSongUrl(){
+        let _this = this
+        let _id = this.$route.params.id
+        _this.$api.get('song/url',{
+          id:_id
+        },(res)=>{
+          if(res.code == 200){
+            _this.url = res.data[0].url
+          }else{
+
+          }
+        },(res)=>{
+
+        })
+      },
+      //获取歌曲详情
+      getDetail(){
+        let _this = this
+        let _id = this.$route.params.id
+        _this.$api.get('song/detail',{
+          ids:_id
+        },(res)=>{
+          if(res.code == 200){
+            _this.song = res.songs[0].al
+            console.log(res.songs)
+            _this.singer = res.songs[0].ar[0]
+          }else{
+
+          }
+        },(res)=>{
+
+        })
+      },
+      // 获取歌词
+      getLyric(){
+          let _this = this
+        let _id = this.$route.params.id
+        _this.$api.get('lyric',{
+          id:_id
+        },(res)=>{
+          if(res.code == 200){
+            _this.lrc2Json(res.lrc.lyric)
+          }else{
+
+          }
+        },(res)=>{
+
+        })
+      },
+      //歌词转换
+      lrc2Json(lrc){
+        let _this = this
+        let arr = lrc.split('\n')
+        let timeReg = /^\[.*\]/
+        _this.lyric = []
+        arr.forEach(item => {
+          let time = item.match(timeReg)[0].substr(1, 8)
+          if(time.match(/\d+/g)!=null){
+            let minute = time.substr(0, 2)
+            let second = time.substr(3, 2)
+            let ms = time.substr(6, 2)
+            _this.lyric.push({
+              time:time,
+              ms: parseInt(minute) * 60 * 1000 + parseInt(second) * 1000 + parseInt(ms) * 10,
+              content: item.substr(11)
+            })
+          }
+        })
+      },
+      //播放
+      play(){
+        let _this = this
+        let _audio =document.querySelector('#audio')
+        if(!_this.isPlaying){
+          _audio.play()
+          _this.isPlaying =true
+        }else{
+          _this.stop()
+        }
+      },
+      //暂停
+      stop(){
+        let _this = this
+        let _audio =document.querySelector('#audio');
+        if(_this.isPlaying){
+          _audio.pause()
+          _this.isPlaying =false
+        }
+      }
     }
 }
 </script>
 
 <style lang="scss" scoped>
+ .play{
+   width: 100px;
+   height: 100px;
+   background: #333;
+   position: relative;
+   z-index: 123
+ }
+ .progress-bar{
+   position: relative;
+   z-index: 123;
+ }
 .filter{
     //   position: absolute;
     // width: 100%;
