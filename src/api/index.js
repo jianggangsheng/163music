@@ -55,9 +55,9 @@ function apiAxios (method, url, params, success, failure) {
 }
 
 // 获取当前时间（时间戳）
-function getTheCurrentTime () {
-  return (new Date()).getTime()
-}
+// function getTheCurrentTime () {
+//   return (new Date()).getTime()
+// }
 
 
 
