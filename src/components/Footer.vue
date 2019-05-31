@@ -1,6 +1,6 @@
 <template>
     <div class="mini-player">
-  
+        
     </div>
 </template>
 

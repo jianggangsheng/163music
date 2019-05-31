@@ -3,10 +3,10 @@
     <div class="filter"></div>
     <!-- <div class="player" @click="play" :style="{'background-image':'url('+song.picUrl+')'}"> -->
     <div class="player">
-      <div class="player-song-wrap">
+      <div class="player-song-wrap"  @click="play">
         <div class="player-disc" v-show="!isLyric" @click="changingOver">
           <div class="player-turn">
-            <div class="player-rollwrap ">
+            <div class="player-rollwrap" >
               <div class="player-img player-circling" :class="{'player-circling-running':isPlaying}">
               <img class="u-img" :src="song['picUrl']" alt="">
               </div>
@@ -15,12 +15,12 @@
               <div class="player-song-light player-circling" :class="{'player-circling-running':isPlaying}"></div>
             </div>
           </div>
-          <!-- <span class="player-song-plybtn" v-show="isPlaying==false"> -->
-          <!-- </span> -->
+          <span class="player-song-plybtn" v-show="isPlaying==false">
+          </span>
         </div>
       </div>
       <!--歌词-->
-      <div class="player-song-info" v-show="isLyric" @click="changingOver">
+      <!-- <div class="player-song-info" v-show="isLyric" @click="changingOver">
         <h2 class="player-song-h2">{{song.name}}-{{singer.name}}</h2>
         <p class="m-song-lritem j-lritem" v-if="lyric == ''">无歌词</p>
         <div class="player-song-lrc" ref="lyric">
@@ -30,10 +30,10 @@
             </div>
           </div>
         </div>
-      </div>
-          <ProgressBar class="progress-bar" :percent="percent" @percentChange="setProgress"></ProgressBar>
-      <div class="play" @click="play">
-      </div>
+      </div> -->
+          <!-- <ProgressBar class="progress-bar" :percent="percent" @percentChange="setProgress"></ProgressBar> -->
+      <!-- <div class="play" >
+      </div> -->
       <audio id="audio" :src="url" autoplay loop ref="audio"></audio>
     </div>
     </div>
@@ -69,19 +69,22 @@ export default {
     created(){
       this.getSongUrl()
       this.getDetail()
-      this.getLyric()
-      this.play()
+      this.isPlaying =true
+      // this.getLyric()
+      // this.play()
     },
     mounted(){
-      this.init()
-      this.lyricScrollInit()
+      // this.init()
+      // this.lyricScrollInit()
     },
     methods:{
       percent(){
+        console.log('123123')
+        console.log(Math.min(1, this.currentTime / this.currentSong.duration))
         return Math.min(1, this.currentTime / this.currentSong.duration)
       },
       changingOver(){
-        this.isLyric = !this.isLyric
+        // this.isLyric = !this.isLyric
       },
       setProgress(percent) {
         // 根据子组件传过来的百分比设置播放进度
@@ -130,7 +133,6 @@ export default {
         },(res)=>{
           if(res.code == 200){
             _this.song = res.songs[0].al
-            console.log(res.songs)
             _this.singer = res.songs[0].ar[0]
           }else{
 
@@ -205,7 +207,8 @@ export default {
    height: 100px;
    background: #333;
    position: relative;
-   z-index: 123
+   z-index: 123;
+  margin: 29px auto 0;
  }
  .progress-bar{
    position: relative;
@@ -244,8 +247,9 @@ export default {
   top: 0;
   height: 100%;
   overflow: hidden;
-  z-index: -1;
+  z-index: 123123;
   opacity: 1;
+  background: #ccc;
   transition: opacity .3s linear;
 }
 .player-song-info {

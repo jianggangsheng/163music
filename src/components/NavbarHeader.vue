@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="banner">
-           
+           <!-- 163music -->
         </div>
         <ul>
             <li>
@@ -26,9 +26,15 @@ export default {
 
 <style lang="scss" scoped>
 .header{
+            background-color: #d43c33;
     .banner{
         background-color: #d43c33;
         height: 64px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 15px;
+        color: #fff;
         .topsvg{
             position: absolute;
             left: 10px;
